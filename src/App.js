@@ -1,10 +1,9 @@
 import React from 'react';
-import {StyleSheet, View, ImageBackground} from 'react-native';
+import { StyleSheet, View, ImageBackground } from 'react-native';
 import Navbar from './Navbar';
-// import AddTodo from './AddTodo';
 import Form from './Form';
 
-const App = () => {
+export default function App() {
   return (
     <>
       <View style={styles.body}>
@@ -12,13 +11,12 @@ const App = () => {
         <ImageBackground
           style={styles.image}
           source={require('./assets/img/stars-on-night.jpg')}>
-          {/* <AddTodo /> */}
           <Form />
         </ImageBackground>
       </View>
     </>
   );
-};
+}
 
 const styles = StyleSheet.create({
   body: {
@@ -28,9 +26,8 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     // alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     resizeMode: 'cover',
+    justifyContent: 'flex-end',
   },
 });
-
-export default App;
