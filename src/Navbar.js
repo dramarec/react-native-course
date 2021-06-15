@@ -1,13 +1,13 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import React from 'react';
+import {View, StyleSheet, Text} from 'react-native';
 
-export const Navbar = ({ title }) => {
+const Navbar = ({title}) => {
   return (
     <View style={styles.navbar}>
       <Text style={styles.text}>{title}</Text>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   navbar: {
@@ -15,10 +15,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     backgroundColor: '#3949ab',
-    paddingBottom: 10
+    // opacity: 0.1,
+    padding: 10,
   },
   text: {
-    color: 'white',
-    fontSize: 20
-  }
-})
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+});
+
+export default Navbar;
