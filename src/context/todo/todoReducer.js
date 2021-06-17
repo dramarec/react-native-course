@@ -13,7 +13,7 @@ const handlers = {
     }),
     [REMOVE_TODO]: (state, action) => ({
         ...state,
-        todos: state.todos.filter(todo => todo.id !== action, id)
+        todos: state.todos.filter(todo => todo.id !== action.id)
     }),
     [UPDATE_TODO]: (state, action) => ({
         ...state,

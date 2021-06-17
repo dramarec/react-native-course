@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
 
 import { Navbar } from './components/Navbar'
+import { ScreenContext } from './context/screen/screenContext'
 import { TodoContext } from './context/todo/todoContext'
 import { MainScreen } from './screens/MainScreen'
 import { TodoScreen } from './screens/TodoScreen'
@@ -10,17 +11,46 @@ import { THEME } from './theme'
 
 export default function MainLayout() {
     const { todos, addTodo, removeTodo, updateTodo } = useContext(TodoContext)
-    const [todoId, setTodoId] = useState(null)
+    const { todoId, changeScreen } = useContext(ScreenContext)
 
-    // const addTodo = title => {
-    //     setTodos(prev => [
-    //         ...prev,
-    //         {
-    //             id: Date.now().toString(),
-    //             title
-    //         }
-    //     ])
-    // }
+    let content = (
+        <MainScreen
+            // todos={todos}
+            // addTodo={addTodo}
+            // removeTodo={removeTodo}
+            // // openTodo={setTodoId}
+            // openTodo={changeScreen}
+        />
+    )
+
+    if (todoId) {
+        const selectedTodo = todos.find(todo => todo.id === todoId)
+        content = (
+            <TodoScreen
+                onRemove={removeTodo}
+                // goBack={() => setTodoId(null)}
+                goBack={() => changeScreen(null)}
+                todo={selectedTodo}
+                onSave={updateTodo}
+            />
+        )
+    }
+
+    return (
+        <View>
+            <Navbar title='Todo App!' />
+            <View style={styles.container}>{content}</View>
+        </View>
+    )
+}
+
+
+const styles = StyleSheet.create({
+    container: {
+        paddingHorizontal: THEME.PADDING_HORIZONTAL,
+        paddingVertical: 20,
+    }
+})
 
     // const removeTodo = id => {
     //     const todo = todos.find(t => t.id === id)
@@ -44,51 +74,3 @@ export default function MainLayout() {
     //         { cancelable: false }
     //     )
     // }
-
-    // const updateTodo = (id, title) => {
-    //     setTodos(old =>
-    //         old.map(todo => {
-    //             if (todo.id === id) {
-    //                 todo.title = title
-    //             }
-    //             return todo
-    //         })
-    //     )
-    // }
-
-    let content = (
-        <MainScreen
-            todos={todos}
-            addTodo={addTodo}
-            removeTodo={removeTodo}
-            openTodo={setTodoId}
-        />
-    )
-
-    if (todoId) {
-        const selectedTodo = todos.find(todo => todo.id === todoId)
-        content = (
-            <TodoScreen
-                onRemove={removeTodo}
-                goBack={() => setTodoId(null)}
-                todo={selectedTodo}
-                onSave={updateTodo}
-            />
-        )
-    }
-
-    return (
-        <View>
-            <Navbar title='Todo App!' />
-            <View style={styles.container}>{content}</View>
-        </View>
-    )
-}
-
-
-const styles = StyleSheet.create({
-    container: {
-        paddingHorizontal: THEME.PADDING_HORIZONTAL,
-        paddingVertical: 20,
-    }
-})
