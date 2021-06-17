@@ -7,7 +7,6 @@ export const AppText = props => (
 
 const styles = StyleSheet.create({
     default: {
-        // fontFamily: 'dm-italic'
         fontFamily: 'roboto-regular'
     }
 })

@@ -27,7 +27,6 @@ export const TodoScreen = ({ goBack, todo, onRemove, onSave }) => {
 
             <AppCard style={styles.card}>
                 <AppTextBold style={styles.title}>{todo.title}</AppTextBold>
-                {/* <Button title='Ред.' onPress={() => setModal(true)} /> */}
                 <AppButton onPress={() => setModal(true)}>
                     <FontAwesome name='edit' size={20} />
                 </AppButton>
@@ -38,10 +37,8 @@ export const TodoScreen = ({ goBack, todo, onRemove, onSave }) => {
                     <AppButton onPress={goBack} color={THEME.GREY_COLOR}>
                         <AntDesign name='back' size={20} color='#fff' />
                     </AppButton>
-                    {/* <Button title='Назад' onPress={goBack} color={THEME.GREY_COLOR} /> */}
                 </View>
                 <View style={styles.button}>
-                    {/* <Button title='Удалить' color={THEME.DANGER_COLOR} onPress={() => onRemove(todo.id)} /> */}
                     <AppButton
                         color={THEME.DANGER_COLOR}
                         onPress={() => onRemove(todo.id)}
@@ -64,8 +61,6 @@ const styles = StyleSheet.create({
         padding: 15
     },
     button: {
-        // width: '40%'
-        // width: Dimensions.get('window').width / 2 
         width: Dimensions.get('window').width > 400 ? 150 : 100
     },
     title: {

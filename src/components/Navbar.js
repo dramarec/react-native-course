@@ -7,10 +7,6 @@ export const Navbar = ({ title }) => {
     return (
         <View style={styles.navbar}>
             <AppTextBold
-                // style={{
-                //     ...styles.navbar,
-                // }}
-                //
                 style={{
                     ...styles.navbar,
                     ...Platform.select({
@@ -32,15 +28,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-end',
         paddingBottom: 10,
-        // ...Platform.select({
-        //     ios: {
-        //         borderBottomColor: THEME.MAIN_COLOR,
-        //         borderBottomWidth: 1
-        //     },
-        //     android: {
-        //         backgroundColor: THEME.MAIN_COLOR
-        //     }
-        // })
     },
     navbarAndroid: {
         backgroundColor: THEME.MAIN_COLOR

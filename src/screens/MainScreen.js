@@ -6,7 +6,6 @@ import { Todo } from '../components/Todo'
 import { THEME } from '../theme'
 
 export const MainScreen = ({ addTodo, todos, removeTodo, openTodo }) => {
-    // const width = Dimensions.get('window').width - THEME.PADDING_HORIZONTAL * 2
     const [deviceWidth, setDeviceWidth] = useState(
         Dimensions.get('window').width - THEME.PADDING_HORIZONTAL * 2
     )
@@ -42,13 +41,6 @@ export const MainScreen = ({ addTodo, todos, removeTodo, openTodo }) => {
                     style={styles.image}
                     source={require('../../assets/no-items.png')}
                 />
-                {/* <Image
-                    style={styles.image}
-                    source={{
-                        uri:
-                            'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png'
-                    }}
-                /> */}
             </View>
         )
     }

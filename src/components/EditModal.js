@@ -35,12 +35,6 @@ export const EditModal = ({ visible, onCancel, value, onSave }) => {
                         Отменить
                     </AppButton>
                     <AppButton onPress={saveHandler}>Сохранить</AppButton>
-                    {/* <Button
-                        title='Отменить'
-                        onPress={onCancel}
-                        color={THEME.DANGER_COLOR}
-                    />
-                    <Button title='Сохранить' onPress={saveHandler} /> */}
                 </View>
             </View>
         </Modal>
