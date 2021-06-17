@@ -89,6 +89,6 @@ export default function MainLayout() {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: THEME.PADDING_HORIZONTAL,
-        paddingVertical: 20
+        paddingVertical: 20,
     }
 })
