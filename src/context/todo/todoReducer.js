@@ -1,4 +1,11 @@
-import { ADD_TODO, REMOVE_TODO, UPDATE_TODO } from "../types"
+import {
+    ADD_TODO, REMOVE_TODO, UPDATE_TODO,
+    SHOW_LOADER,
+    HIDE_LOADER,
+    SHOW_ERROR,
+    CLEAR_ERROR,
+    FETCH_TODOS
+} from "../types"
 
 const handlers = {
     [ADD_TODO]: (state, action) => ({
@@ -6,7 +13,7 @@ const handlers = {
         todos: [
             ...state.todos,
             {
-                id: Date.now().toString(),
+                id: action.id,
                 title: action.title
             }
         ]
