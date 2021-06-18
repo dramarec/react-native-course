@@ -8,8 +8,8 @@ import { TodoContext } from '../context/todo/todoContext'
 import { THEME } from '../theme'
 
 export const MainScreen = () => {
-    const { todos, addTodo, removeTodo, updateTodo } = useContext(TodoContext)
-    const { todoId, changeScreen } = useContext(ScreenContext)
+    const { changeScreen } = useContext(ScreenContext)
+    const { todos, addTodo, removeTodo } = useContext(TodoContext)
 
     const [deviceWidth, setDeviceWidth] = useState(
         Dimensions.get('window').width - THEME.PADDING_HORIZONTAL * 2

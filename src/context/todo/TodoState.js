@@ -30,8 +30,6 @@ export const TodoState = ({ children }) => {
                     text: 'Удалить',
                     style: 'destructive',
                     onPress: () => {
-                        // setTodoId(null)
-                        // setTodos(prev => prev.filter(todo => todo.id !== id))
                         changeScreen(null)
                         dispatch({ type: REMOVE_TODO, id })
                     }
@@ -39,10 +37,16 @@ export const TodoState = ({ children }) => {
             ],
             { cancelable: false }
         )
-        // changeScreen(null)
-        // dispatch({ type: REMOVE_TODO, id })
     }
     const updateTodo = (id, title) => dispatch({ type: UPDATE_TODO, id, title })
+
+    const showLoader = () => dispatch({ type: SHOW_LOADER })
+
+    const hideLoader = () => dispatch({ type: HIDE_LOADER })
+
+    const showError = error => dispatch({ type: SHOW_ERROR, error })
+
+    const clearError = () => dispatch({ type: CLEAR_ERROR })
 
     return (
         <TodoContext.Provider

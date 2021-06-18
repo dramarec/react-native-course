@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { StyleSheet, View, Text, Button, Dimensions } from 'react-native'
+import { StyleSheet, View, Button, Dimensions } from 'react-native'
 import { FontAwesome, AntDesign } from '@expo/vector-icons'
 
 import { THEME } from '../theme'
@@ -11,7 +11,7 @@ import { ScreenContext } from '../context/screen/screenContext'
 import { TodoContext } from '../context/todo/todoContext'
 
 export const TodoScreen = () => {
-    const { todos, addTodo, removeTodo, updateTodo } = useContext(TodoContext)
+    const { todos, removeTodo, updateTodo } = useContext(TodoContext)
     const { todoId, changeScreen } = useContext(ScreenContext)
 
     const [modal, setModal] = useState(false)

@@ -24,6 +24,11 @@ const handlers = {
             return todo
         })
     }),
+    [SHOW_LOADER]: state => ({ ...state, loading: true }),
+    [HIDE_LOADER]: state => ({ ...state, loading: false }),
+    [CLEAR_ERROR]: state => ({ ...state, error: null }),
+    [SHOW_ERROR]: (state, { error }) => ({ ...state, error }),
+    [FETCH_TODOS]: (state, { todos }) => ({ ...state, todos }),
     DEFAULT: state => state
 }
 
@@ -31,6 +36,7 @@ export const todoReducer = (state, action) => {
     const handler = handlers[action.type] || handlers.DEFAULT
     return handler(state, action)
 }
+
 //
 // export const todoReducer = (state, action) => {
 //     switch (action.type) {
