@@ -20,32 +20,29 @@ export const TodoState = ({ children }) => {
 
     const fetchTodos = async () => {
         showLoader()
+        clearError()
+        try {
+            const response = await fetch('https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos.json',
+                {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                })
 
-        const response = await fetch('https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos.json',
-            {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
-            })
+            const data = await response.json()
 
-        const data = await response.json()
-        // console.log("🔥🚀 ===> fetchTodos ===> data", data);
-        // ===> fetchTodos ===> data Object {
-        //     "-McSTDAEc_J3eOAyZoYb": Object {
-        //       "title": "fff",
-        //     },
-        //     "-McSU-5tiGJ0uNowtaxS": Object {
-        //       "title": "Выучить React Native Выучить React Native",
-        //     },
-        //   }
 
-        const todos = Object.keys(data).map(key => ({
-            ...data[key], id: key
-        }))
-        console.log("🔥🚀 ===>todos", todos);
-        dispatch({ type: FETCH_TODOS, todos })
-        // setTimeout(() => dispatch({ type: FETCH_TODOS, todos }), 2000)
+            const todos = Object.keys(data).map(key => ({
+                ...data[key], id: key
+            }))
+            console.log("🔥🚀 ===>todos", todos);
+            dispatch({ type: FETCH_TODOS, todos })
+        } catch (error) {
+            showError('Error try again later')
+            console.log(error)
+        } finally {
+            hideLoader()
+        }
 
-        hideLoader()
 
     }
 
@@ -64,6 +61,25 @@ export const TodoState = ({ children }) => {
         dispatch({ type: ADD_TODO, title, id: data.name })
     }
 
+    const updateTodo = async (id, title) => {
+        clearError()
+        try {
+            await fetch(`https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`,
+                {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title })
+                })
+            dispatch({ type: UPDATE_TODO, id, title })
+        } catch (e) {
+            showError('Что-пошло не так...')
+            console.log(e)
+        }
+    }
+    // const updateTodo = (id, title) => {
+    //     dispatch({ type: UPDATE_TODO, id, title })
+    // }
+
     const removeTodo = id => {
         const todo = state.todos.find(t => t.id === id)
         Alert.alert(
@@ -77,8 +93,14 @@ export const TodoState = ({ children }) => {
                 {
                     text: 'Удалить',
                     style: 'destructive',
-                    onPress: () => {
+                    onPress: async () => {
                         changeScreen(null)
+                        await fetch(`https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`,
+                            {
+                                method: 'DELETE',
+                                headers: { 'Content-Type': 'application/json' }
+                            }
+                        )
                         dispatch({ type: REMOVE_TODO, id })
                     }
                 }
@@ -86,7 +108,6 @@ export const TodoState = ({ children }) => {
             { cancelable: false }
         )
     }
-    const updateTodo = (id, title) => dispatch({ type: UPDATE_TODO, id, title })
 
     const showLoader = () => dispatch({ type: SHOW_LOADER })
 
