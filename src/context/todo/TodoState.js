@@ -9,32 +9,35 @@ import {
 } from '../types'
 import { TodoContext } from './todoContext'
 import { todoReducer } from './todoReducer'
+import { Http } from '../../http'
 
 export const TodoState = ({ children }) => {
     const initialState = {
-        // todos: [{ id: '1', title: 'Выучить React Native' }]
+        todos: [],
+        loading: false,
+        error: null,
     }
     const { changeScreen } = useContext(ScreenContext)
-
     const [state, dispatch] = useReducer(todoReducer, initialState)
 
     const fetchTodos = async () => {
         showLoader()
         clearError()
         try {
-            const response = await fetch('https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos.json',
-                {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
-                })
+            // const response = await fetch('https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos.json',
+            //     {
+            //         method: 'GET',
+            //         headers: { 'Content-Type': 'application/json' }
+            //     })
 
-            const data = await response.json()
-
-
+            // const data = await response.json()
+            const data = await Http.get(
+                'https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos.json'
+            )
             const todos = Object.keys(data).map(key => ({
                 ...data[key], id: key
             }))
-            console.log("🔥🚀 ===>todos", todos);
+            // console.log("🔥🚀 ===>todos", todos);
             dispatch({ type: FETCH_TODOS, todos })
         } catch (error) {
             showError('Error try again later')
@@ -42,43 +45,52 @@ export const TodoState = ({ children }) => {
         } finally {
             hideLoader()
         }
-
-
     }
 
     const addTodo = async title => {
-        const response = await fetch('https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos.json',
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title })
-            })
+        clearError()
+        try {
+            // const response = await fetch('https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos.json',
+            //     {
+            //         method: 'POST',
+            //         headers: { 'Content-Type': 'application/json' },
+            //         body: JSON.stringify({ title })
+            //     })
 
-        const data = await response.json()
+            // const data = await response.json()
+            const data = await Http.post(
+                'https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos.json',
+                { title }
+            )
+            // console.log("🔥🚀 ===> TodoState ===> data", data);
+            dispatch({ type: ADD_TODO, title, id: data.name })
+        } catch (error) {
+            showError('Error try again later')
+            console.log(error)
 
-        console.log("🔥🚀 ===> addTodo ===> data", data.name);
-
-        dispatch({ type: ADD_TODO, title, id: data.name })
+        }
     }
 
     const updateTodo = async (id, title) => {
         clearError()
         try {
-            await fetch(`https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`,
+            let data = await fetch(`https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`,
                 {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ title })
                 })
+                //dont work
+            // let data = await Http.patch(
+            //     `https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`
+            // )
+            console.log("🔥🚀 ===> updateTodo ===> data", data);
             dispatch({ type: UPDATE_TODO, id, title })
         } catch (e) {
-            showError('Что-пошло не так...')
+            showError('Error try again later')
             console.log(e)
         }
     }
-    // const updateTodo = (id, title) => {
-    //     dispatch({ type: UPDATE_TODO, id, title })
-    // }
 
     const removeTodo = id => {
         const todo = state.todos.find(t => t.id === id)
@@ -95,11 +107,14 @@ export const TodoState = ({ children }) => {
                     style: 'destructive',
                     onPress: async () => {
                         changeScreen(null)
-                        await fetch(`https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`,
-                            {
-                                method: 'DELETE',
-                                headers: { 'Content-Type': 'application/json' }
-                            }
+                        // await fetch(`https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`,
+                        //     {
+                        //         method: 'DELETE',
+                        //         headers: { 'Content-Type': 'application/json' }
+                        //     }
+                        // )
+                        await Http.delete(
+                            `https://test-rn-firebase-8339e-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`
                         )
                         dispatch({ type: REMOVE_TODO, id })
                     }

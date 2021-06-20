@@ -13,13 +13,12 @@ import { TodoContext } from '../context/todo/todoContext'
 export const TodoScreen = () => {
     const { todos, removeTodo, updateTodo } = useContext(TodoContext)
     const { todoId, changeScreen } = useContext(ScreenContext)
-
     const [modal, setModal] = useState(false)
 
     const todo = todos.find(t => t.id === todoId)
 
-    const saveHandler = title => {
-        updateTodo(todo.id, title)
+    const saveHandler = async title => {
+        await updateTodo(todo.id, title)
         setModal(false)
     }
 
