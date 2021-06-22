@@ -46,8 +46,15 @@ const AppNavigation = () => {
                     name='PostScreen'
                     component={PostScreen}
                     options={({ route }) => ({
-                        title: route.params.date
+                        title: 'Пост от ' + new Date(route.params.date).toLocaleDateString()
                     })}
+                // options={({ route }) => {
+                //     // title: route.params.date
+                //     const date = route.params.date
+                //     return {
+                //         title: new Date(date).toLocaleDateString()
+                //     }
+                // }}
                 />
             </AppNavigationStack.Navigator>
         </NavigationContainer>
