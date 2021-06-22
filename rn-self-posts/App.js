@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import AppLoading from 'expo-app-loading'
 import { bootstrap } from './src/bootstrap'
-import AppNavigation from './src/navigation/AppNavigation';
+import TabNavigation from './src/navigation/AppNavigation';
 
 
 export default function App() {
@@ -19,7 +19,7 @@ export default function App() {
     }
 
     return (
-        <AppNavigation />
+        <TabNavigation />
     );
 }
 
