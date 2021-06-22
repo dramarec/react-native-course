@@ -1,15 +1,17 @@
 import React from 'react'
-import { Platform } from 'react-native'
+import { Platform, TouchableOpacity } from 'react-native'
 
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from '@react-navigation/stack'
 const AppNavigationStack = createStackNavigator()
-import { useRoute } from '@react-navigation/native';
+
+// import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import { Ionicons } from '@expo/vector-icons';
 
 import { MainScreen } from '../screens/MainScreen'
 import { PostScreen } from '../screens/PostScreen'
 import { THEME } from '../theme'
-
+import AppHeaderIcon from '../components/AppHeaderIcon'
 
 
 const AppNavigation = () => {
@@ -28,6 +30,7 @@ const AppNavigation = () => {
                     fontWeight: 'bold',
                     fontSize: 20
                 },
+
             }}>
                 <AppNavigationStack.Screen
                     name='MainScreen'
@@ -37,24 +40,75 @@ const AppNavigation = () => {
                         headerStyle: {
                             backgroundColor: '#ccfd',
                         },
-                        // headerTintColor: '#555'
-                        // headerTintColor: '#fff',
+                        headerLeft: () => (
+                            <TouchableOpacity
+                                style={{ marginLeft: 20 }}
+                                onPress={() => console.log('Press photo')}
+                            >
+                                <Ionicons
+                                    name="ios-menu"
+                                    size={24}
+                                    color="black"
+                                    backgroundColor='#ccfd'
+                                />
+                            </TouchableOpacity>
+                        ),
+                        headerRight: () => (
+                            <TouchableOpacity
+                                style={{ marginRight: 20 }}
+                                onPress={() => console.log('Press photo')}
+                            >
+                                <Ionicons
+                                    name="ios-camera"
+                                    size={24}
+                                    color={Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR}
+                                    backgroundColor='#ccfd'
+                                />
+                            </TouchableOpacity>
+                        )
 
                     }}
                 />
                 <AppNavigationStack.Screen
                     name='PostScreen'
                     component={PostScreen}
-                    options={({ route }) => ({
-                        title: 'Пост от ' + new Date(route.params.date).toLocaleDateString()
-                    })}
-                // options={({ route }) => {
-                //     // title: route.params.date
-                //     const date = route.params.date
-                //     return {
-                //         title: new Date(date).toLocaleDateString()
-                //     }
-                // }}
+                    // options={({ route }) => ({
+                    // title: 'Пост от ' + new Date(route.params.date).toLocaleDateString(),
+                    //     headerRight: () => (
+
+                    // <TouchableOpacity TouchableOpacity
+                    //     style={{ marginRight: 20 }}
+                    //     onPress={() => console.log('Press photo')}
+                    // >
+                    //     <Ionicons
+                    //         name="ios-camera"
+                    //         size={24}
+                    //         color="black"
+                    //         backgroundColor='#ccfd'
+                    //     />
+                    // </TouchableOpacity>
+                    //     )
+                    // })}
+                    options={({ route }) => {
+                        const date = route.params.date
+                        const iconName = route.params.booked ? 'ios-star' : 'ios-star-outline'
+                        return {
+                            title: 'Пост от ' + new Date(date).toLocaleDateString(),
+                            headerRight: () => (
+                                <TouchableOpacity TouchableOpacity
+                                    style={{ marginRight: 20 }}
+                                    onPress={() => console.log('Press photo')}
+                                >
+                                    <Ionicons
+                                        name={iconName}
+                                        size={24}
+                                        color={Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR}
+                                        backgroundColor='#ccfd'
+                                    />
+                                </TouchableOpacity>
+                            )
+                        }
+                    }}
                 />
             </AppNavigationStack.Navigator>
         </NavigationContainer>
