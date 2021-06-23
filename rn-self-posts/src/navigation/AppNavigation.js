@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from '@react-navigation/stack'
 const AppNavigationStack = createStackNavigator()
+const BookedScreenStack = createStackNavigator()
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const TabAppNavigation = createBottomTabNavigator();
@@ -15,20 +16,18 @@ import { BookedScreen } from '../screens/BookedScreen'
 import { THEME } from '../theme'
 
 
-const AppNavigation = () => {
+const MainScreenNavigation = () => {
     return (
         <AppNavigationStack.Navigator
-            creenOptions={{
+            screenOptions={{
                 headerStyle: {
-                    // backgroundColor: '#1f65ff',
-                    backgroundColor: Platform.OS === 'android' ? THEME.MAIN_COLOR : '#fff'
-
+                    backgroundColor: '#ccfd',
                 },
                 // headerTintColor: '#fff',
                 headerTintColor: Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR,
                 headerTitleStyle: {
                     fontWeight: 'bold',
-                    fontSize: 20
+                    fontSize: 22
                 },
 
             }}>
@@ -36,10 +35,14 @@ const AppNavigation = () => {
                 name='MainScreen'
                 component={MainScreen}
                 options={{
-                    title: 'New Options',
-                    headerStyle: {
-                        backgroundColor: '#ccfd',
-                    },
+                    title: 'Мой блог',
+                    // headerStyle: {
+                    // backgroundColor: '#ccfd',
+                    // },
+                    // headerTitleStyle: {
+                    //     fontWeight: 'bold',
+                    // },
+                    // headerTintColor: Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR,
                     headerLeft: () => (
                         <TouchableOpacity
                             style={{ marginLeft: 20 }}
@@ -47,8 +50,8 @@ const AppNavigation = () => {
                         >
                             <Ionicons
                                 name="ios-menu"
-                                size={24}
-                                color="black"
+                                size={28}
+                                color={Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR}
                                 backgroundColor='#ccfd'
                             />
                         </TouchableOpacity>
@@ -60,7 +63,7 @@ const AppNavigation = () => {
                         >
                             <Ionicons
                                 name="ios-camera"
-                                size={24}
+                                size={28}
                                 color={Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR}
                                 backgroundColor='#ccfd'
                             />
@@ -97,32 +100,106 @@ const AppNavigation = () => {
     );
 }
 
+const BookedScreenNavigation = () => {
+    return (
+        <BookedScreenStack.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: Platform.OS === 'android' ? THEME.MAIN_COLOR : '#fff'
+                },
+                headerTintColor: Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR,
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                    fontSize: 20
+                },
+
+            }}>
+            <BookedScreenStack.Screen
+                name='MainScreen'
+                component={BookedScreen}
+                options={{
+                    title: 'Избранное',
+                    // headerStyle: {
+                    //     backgroundColor: '#ccfd',
+                    // },
+                    headerLeft: () => (
+                        <TouchableOpacity
+                            style={{ marginLeft: 20 }}
+                            onPress={() => console.log('Press photo')}
+                        >
+                            <Ionicons
+                                name="ios-menu"
+                                size={28}
+                                color={Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR}
+                                backgroundColor='#ccfd'
+                            />
+                        </TouchableOpacity>
+                    ),
+                }}
+            />
+
+            <BookedScreenStack.Screen
+                name='PostScreen'
+                component={PostScreen}
+                options={({ route }) => {
+                    const booked = route.params.booked
+                    const date = route.params.date
+                    const iconName = booked ? 'ios-star' : 'ios-star-outline'
+                    return {
+                        title: 'Пост от ' + new Date(date).toLocaleDateString(),
+                        headerRight: () => (
+                            <TouchableOpacity TouchableOpacity
+                                style={{ marginRight: 20 }}
+                                onPress={() => console.log('Press photo')}
+                            >
+                                <Ionicons
+                                    name={iconName}
+                                    size={24}
+                                    color={Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR}
+                                    backgroundColor='#ccfd'
+                                />
+                            </TouchableOpacity>
+                        )
+                    }
+                }}
+            />
+
+        </BookedScreenStack.Navigator>
+    )
+}
+
 const TabNavigation = () => {
     return (
         <NavigationContainer>
-            <TabAppNavigation.Navigator>
+            <TabAppNavigation.Navigator
+                tabBarOptions={{
+                    activeTintColor: THEME.MAIN_COLOR,
+                }}
+            >
                 <TabAppNavigation.Screen
                     name='MainScreen'
-                    component={AppNavigation}
+                    component={MainScreenNavigation}
                     options={{
                         tabBarIcon: ({ focused, size, color }) => (
                             <Ionicons
                                 name='ios-albums'
                                 size={size}
                                 color={color}
-                                focused={focused} />
+                                focused={focused}
+                            />
                         )
                     }}
                 />
                 <TabAppNavigation.Screen
                     name='PostScreen'
-                    component={BookedScreen}
+                    component={BookedScreenNavigation}
                     options={{
                         tabBarIcon: ({ focused, size, color }) => (
                             <Ionicons
                                 name='ios-star'
                                 size={size}
-                                color={color} />
+                                color={color}
+                            />
                         )
                     }}
                 />
@@ -134,6 +211,9 @@ const TabNavigation = () => {
 
 export default TabNavigation;
 
+
+                    // activeTintColor: '#2eb4e5',
+                    // activeTintColor: '#1f65ff',
 //  options={props =>  Object {
 //   "navigation": Object {
 //     "addListener": [Function addListener],
