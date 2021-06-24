@@ -8,12 +8,44 @@ const AppNavigationStack = createStackNavigator()
 const BookedScreenStack = createStackNavigator()
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-const TabAppNavigation = createBottomTabNavigator();
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
+
+const TabAppNavigation = Platform.OS === 'android'
+    ? createMaterialBottomTabNavigator() : createBottomTabNavigator();
+
+// const TabAppNavigation = createBottomTabNavigator();
 
 import { MainScreen } from '../screens/MainScreen'
 import { PostScreen } from '../screens/PostScreen'
 import { BookedScreen } from '../screens/BookedScreen'
 import { THEME } from '../theme'
+
+const postSreenFunc = () => (
+    <AppNavigationStack.Screen
+        name='PostScreen'
+        component={PostScreen}
+        options={({ route }) => {
+            const date = route.params.date
+            const iconName = route.params.booked ? 'ios-star' : 'ios-star-outline'
+            return {
+                title: 'Пост от ' + new Date(date).toLocaleDateString(),
+                headerRight: () => (
+                    <TouchableOpacity TouchableOpacity
+                        style={{ marginRight: 20 }}
+                        onPress={() => console.log('Press photo')}
+                    >
+                        <Ionicons
+                            name={iconName}
+                            size={24}
+                            color={Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR}
+                            backgroundColor='#ccfd'
+                        />
+                    </TouchableOpacity>
+                )
+            }
+        }}
+    />
+)
 
 
 const MainScreenNavigation = () => {
@@ -21,7 +53,8 @@ const MainScreenNavigation = () => {
         <AppNavigationStack.Navigator
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: '#ccfd',
+                    // backgroundColor: '#ccfd',
+                    backgroundColor: Platform.OS === 'android' ? THEME.MAIN_COLOR : '#fff'
                 },
                 // headerTintColor: '#fff',
                 headerTintColor: Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR,
@@ -72,7 +105,8 @@ const MainScreenNavigation = () => {
 
                 }}
             />
-            <AppNavigationStack.Screen
+            {postSreenFunc()}
+            {/* <AppNavigationStack.Screen
                 name='PostScreen'
                 component={PostScreen}
                 options={({ route }) => {
@@ -95,7 +129,7 @@ const MainScreenNavigation = () => {
                         )
                     }
                 }}
-            />
+            /> */}
         </AppNavigationStack.Navigator>
     );
 }
@@ -137,8 +171,9 @@ const BookedScreenNavigation = () => {
                     ),
                 }}
             />
+            {postSreenFunc()}
 
-            <BookedScreenStack.Screen
+            {/* <BookedScreenStack.Screen
                 name='PostScreen'
                 component={PostScreen}
                 options={({ route }) => {
@@ -162,7 +197,7 @@ const BookedScreenNavigation = () => {
                         )
                     }
                 }}
-            />
+            /> */}
 
         </BookedScreenStack.Navigator>
     )
@@ -172,39 +207,47 @@ const TabNavigation = () => {
     return (
         <NavigationContainer>
             <TabAppNavigation.Navigator
+                //IOS
                 tabBarOptions={{
                     activeTintColor: THEME.MAIN_COLOR,
                 }}
+                //Android
+                shifting={true}
+                barStyle={{
+                    backgroundColor: THEME.MAIN_COLOR,
+                }}
             >
                 <TabAppNavigation.Screen
-                    name='MainScreen'
+                    name='Все'
                     component={MainScreenNavigation}
                     options={{
                         tabBarIcon: ({ focused, size, color }) => (
                             <Ionicons
                                 name='ios-albums'
-                                size={size}
+                                // size={size}
+                                size={22}
                                 color={color}
-                                focused={focused}
+                            // focused={focused}
                             />
                         )
                     }}
                 />
                 <TabAppNavigation.Screen
-                    name='PostScreen'
+                    name='Избранные'
                     component={BookedScreenNavigation}
                     options={{
                         tabBarIcon: ({ focused, size, color }) => (
                             <Ionicons
                                 name='ios-star'
-                                size={size}
+                                // size={size}
+                                size={22}
                                 color={color}
                             />
                         )
                     }}
                 />
             </TabAppNavigation.Navigator>
-        </NavigationContainer>
+        </NavigationContainer >
 
     )
 }

@@ -6,3 +6,5 @@
 -   npm i react-navigation-header-buttons [https://www.npmjs.com/package/react-navigation-header-buttons]
 -   npm install @expo/vector-icons  [https://icons.expo.fyi/]
 -   npm install @react-navigation/bottom-tabs   [https://reactnavigation.org/docs/bottom-tab-navigator]
+-   npm install react-navigation-material-bottom-tabs <=for android?
+-   npm install @react-navigation/material-bottom-tabs
