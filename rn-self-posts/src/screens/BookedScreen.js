@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+
 import { DATA } from '../data'
 import { PostList } from '../components/PostList'
+import { loadPosts } from '../store/actions/post'
 
 export const BookedScreen = ({ navigation }) => {
     const openPostHandler = post => {
@@ -11,11 +14,18 @@ export const BookedScreen = ({ navigation }) => {
             booked: post.booked
         })
     }
+    const dispatch = useDispatch()
 
-    const data = DATA.filter(post => post.booked)
+    useEffect(() => {
+        dispatch(loadPosts())
+    }, [dispatch])
+
+    const allPosts = useSelector(state => state.post.bookedPosts)
+
+    // const data = DATA.filter(post => post.booked)
 
     return (
-        <PostList data={data} onOpen={openPostHandler} />
+        <PostList data={allPosts} onOpen={openPostHandler} />
     )
 }
 
