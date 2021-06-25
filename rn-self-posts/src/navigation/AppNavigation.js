@@ -82,10 +82,10 @@ const MainScreenNavigation = ({ navigation }) => {
                             </TouchableOpacity>
                         )
                     },
-                    headerRight: () => (
+                    headerRight: ({ }) => (
                         <TouchableOpacity
                             style={{ marginRight: 20 }}
-                            onPress={() => navigation.navigate('CreateScreen')}
+                            onPress={() => navigation.navigate('CreateScreen', { name: 'ReactNative' })}
                         >
                             <Ionicons
                                 name="ios-camera"
@@ -268,12 +268,50 @@ const TabNavigation = () => {
 const MainDrawerNavigator = () => {
     return (
         <NavigationContainer>
-            <Drawer.Navigator>
-                <Drawer.Screen name="TabNavigation" component={TabNavigation} />
-                <Drawer.Screen name="AboutScreen" component={AboutScreenNavigator} />
-                <Drawer.Screen name="CreateScreen" component={CreateScreenNavigator} />
+            <Drawer.Navigator
+                drawerStyle={{
+                    backgroundColor: '#c6cbef',
+                    width: 180,
+                }}
+                drawerContentOptions={{
+                    activeTintColor: THEME.MAIN_COLOR,
+                    labelStyle: {
+                        fontFamily: 'open-bold'
+                    },
+
+                    itemStyle: { marginVertical: 10 },
+                }}
+            >
+                <Drawer.Screen
+                    name="TabNavigation"
+                    component={TabNavigation}
+                    options={{
+                        title: 'Главная',
+                        // drawerLabel: ({ focused, color }) => (
+                        // ),
+                        drawerIcon: ({ focused, size, color }) => (
+                            <Ionicons
+                                name='ios-star'
+                                size={16}
+                                color={color}
+                            />
+                        )
+                    }}
+                />
+                <Drawer.Screen
+                    name="AboutScreen"
+                    component={AboutScreenNavigator}
+                    options={{ title: 'О приложении' }}
+
+                />
+                <Drawer.Screen
+                    name="CreateScreen"
+                    component={CreateScreenNavigator}
+                    options={{ title: 'Новый пост' }}
+
+                />
             </Drawer.Navigator>
-        </NavigationContainer>
+        </NavigationContainer >
     )
 }
 export default MainDrawerNavigator;
