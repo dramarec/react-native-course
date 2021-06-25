@@ -28,13 +28,18 @@ const postSreenFunc = () => (
         name='PostScreen'
         component={PostScreen}
         options={({ route }) => {
-            const date = route.params.date
-            const iconName = route.params.booked ? 'ios-star' : 'ios-star-outline'
+            // console.log('route', route)
+            const toogleHandler = route.params?.toogleHandler
+            const date = route.params?.date
+            const iconName = route.params?.booked ? 'ios-star' : 'ios-star-outline'
             return {
                 title: 'Пост от ' + new Date(date).toLocaleDateString(),
                 headerRight: () => (
-                    <TouchableOpacity TouchableOpacity
+                    <TouchableOpacity
+                        // TouchableOpacity
                         style={{ marginRight: 20 }}
+                        onPress={toogleHandler}
+
                     >
                         <Ionicons
                             name={iconName}

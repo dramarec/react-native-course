@@ -8,11 +8,11 @@ export const Post = ({ post, onOpen }) => {
     return (
         <TouchableOpacity activeOpacity={0.7} onPress={() => onOpen(post)}>
             <View style={styles.post}>
-                <ImageBackground style={styles.image} source={{ uri: post.img }}>
+                <ImageBackground style={styles.image} source={{ uri: post?.img }}>
                     <View style={styles.textWrap}>
                         <Text style={styles.title}>
                             {/* ! date! */}
-                            {new Date(post.date).toLocaleDateString()}
+                            {new Date(post?.date).toLocaleDateString()}
                         </Text>
                     </View>
                 </ImageBackground>

@@ -8,9 +8,9 @@ import { loadPosts } from '../store/actions/post'
 export const MainScreen = ({ navigation }) => {
     const openPostHandler = post => {
         navigation.navigate('PostScreen', {
-            postId: post.id,
-            date: post.date,
-            booked: post.booked
+            postId: post?.id,
+            date: post?.date,
+            booked: post?.booked
         })
     }
 
@@ -20,7 +20,7 @@ export const MainScreen = ({ navigation }) => {
         dispatch(loadPosts())
     }, [dispatch])
 
-    const allPosts = useSelector(state => state.post.allPosts)
+    const allPosts = useSelector(state => state?.post?.allPosts)
 
     return (
         <PostList data={allPosts} onOpen={openPostHandler} />
