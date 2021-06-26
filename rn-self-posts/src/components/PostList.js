@@ -9,6 +9,7 @@ export const PostList = ({ data, onOpen }) => {
                 data={data}
                 keyExtractor={post => post.id.toString()}
                 renderItem={({ item }) => <Post post={item} onOpen={onOpen} />}
+                showsVerticalScrollIndicator={false}
             />
         </View>
     )
