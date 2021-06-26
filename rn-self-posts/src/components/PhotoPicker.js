@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Image, Button, Alert, Platform } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
-import * as Permissions from 'expo-permissions'
+// import * as Permissions from 'expo-permissions'
 
+//https://docs.expo.io/versions/v41.0.0/sdk/permissions/#bare-workflow
 // async function askForPermissions() {
 //     const { status } = await Permissions.askAsync(
 //         Permissions.CAMERA,

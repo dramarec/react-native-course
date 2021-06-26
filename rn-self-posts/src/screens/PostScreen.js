@@ -11,17 +11,19 @@ export const PostScreen = ({ navigation, route }) => {
     const postId = route.params?.postId
 
     const post = useSelector(state =>
-        state.post?.allPosts.find(p => p.id === postId)
+        state.post.allPosts.find(p => p.id === postId)
     )
+    console.log("🔥🚀 ===> PostScreen ===> post", post);
 
     const booked = useSelector(state =>
-        state.post?.bookedPosts.some(post => post.id === postId)
+        state.post.bookedPosts.some(post => post.id === postId)
     )
 
     const toogleHandler = useCallback(() => {
         // console.log(postId)
-        dispatch(toogleBooked(postId))
-    }, [dispatch, postId])
+        // dispatch(toogleBooked(postId))
+        dispatch(toogleBooked(post))
+    }, [dispatch, post])
 
     useEffect(() => {
         // navigation.setOptions({ toogleHandler }) // dont work
@@ -62,7 +64,7 @@ export const PostScreen = ({ navigation, route }) => {
         <ScrollView>
             <Image source={{ uri: post.img }} style={styles.img} />
             <View style={styles.textWrap}>
-                <Text style={styles.title}>{postId}</Text>
+                <Text style={styles.title}>{post.text}</Text>
             </View>
             <Button
                 title='Удалить'
