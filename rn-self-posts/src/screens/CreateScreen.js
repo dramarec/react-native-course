@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import {
     View,
     Text,
@@ -13,23 +13,27 @@ import {
 import { useDispatch } from 'react-redux'
 import { THEME } from '../theme'
 import { addPost } from '../store/actions/post'
+import { PhotoPicker } from '../components/PhotoPicker'
 
 export const CreateScreen = ({ navigation }) => {
     const dispatch = useDispatch()
     const [text, setText] = useState('')
-
-    const img =
-        'https://static.coindesk.com/wp-content/uploads/2019/01/shutterstock_1012724596-860x430.jpg'
+    const imgRef = useRef()
 
     const saveHandler = () => {
         const post = {
             date: new Date().toJSON(),
             text: text,
-            img: img,
+            // img: img,
+            img: imgRef.current,
             booked: false
         }
         dispatch(addPost(post))
         navigation.navigate('MainScreen')
+    }
+
+    const photPickHandler = uri => {
+        imgRef.current = uri
     }
 
     return (
@@ -37,12 +41,8 @@ export const CreateScreen = ({ navigation }) => {
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <View style={styles.wrapper}>
                     <Text style={styles.title}>Создай новый пост</Text>
-                    <Image
-                        style={{ width: '100%', height: 200, marginBottom: 10 }}
-                        source={{
-                            uri: img
-                        }}
-                    />
+
+                    <PhotoPicker onPick={photPickHandler} />
                     <TextInput
                         style={styles.textarea}
                         placeholder='Введите текст заметки'
@@ -54,6 +54,8 @@ export const CreateScreen = ({ navigation }) => {
                         title='Создать пост'
                         color={THEME.MAIN_COLOR}
                         onPress={saveHandler}
+                        // disabled={!text || !imgRef.current}
+                        disabled={!text}
                     />
                 </View>
             </TouchableWithoutFeedback>

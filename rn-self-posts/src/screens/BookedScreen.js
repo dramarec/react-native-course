@@ -20,7 +20,7 @@ export const BookedScreen = ({ navigation }) => {
         dispatch(loadPosts())
     }, [dispatch])
 
-    const allPosts = useSelector(state => state?.post?.bookedPosts)
+    const allPosts = useSelector(state => state.post?.bookedPosts)
 
     // const data = DATA.filter(post => post.booked)
 

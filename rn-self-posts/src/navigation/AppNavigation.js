@@ -28,7 +28,9 @@ const postSreenFunc = () => (
         name='PostScreen'
         component={PostScreen}
         options={({ route }) => {
-            // console.log('route', route)
+
+            // console.log('postSreenFunc route', route)
+            // const toogleHandler = navigation.setParams.toogleHandler
             const toogleHandler = route.params?.toogleHandler
             const date = route.params?.date
             const iconName = route.params?.booked ? 'ios-star' : 'ios-star-outline'
